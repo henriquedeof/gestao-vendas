@@ -1,6 +1,7 @@
 package au.com.xpto.gvendas.gestaovendas.services;
 
 import au.com.xpto.gvendas.gestaovendas.entities.Categoria;
+import au.com.xpto.gvendas.gestaovendas.exceptions.RegraNegocioException;
 import au.com.xpto.gvendas.gestaovendas.repositories.CategoriaRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -30,13 +31,19 @@ public class CategoriaService {
     }
 
     public Categoria salvar(Categoria categoria){
+        this.validarCategoriaDuplicada(categoria);
         return this.categoriaRepository.save(categoria);
     }
 
     public Categoria atualizar(Long codigo, Categoria categoria){
         Categoria categoriaSalvar = this.validarCategoriaExiste(codigo);
+        this.validarCategoriaDuplicada(categoria);
         BeanUtils.copyProperties(categoria, categoriaSalvar, "codigo");//Copy categoria's attributes into categoriaSalvar but ignore 'codigo' attribute.
         return this.categoriaRepository.save(categoriaSalvar);
+    }
+
+    public void delete(Long codigo){
+        this.categoriaRepository.deleteById(codigo);
     }
 
     private Categoria validarCategoriaExiste(Long codigo){
@@ -46,6 +53,12 @@ public class CategoriaService {
         }
 
         return categoria.get();
+    }
+
+    private void validarCategoriaDuplicada(Categoria categoria){
+        Categoria categoriaEncontrada = this.categoriaRepository.findByNome(categoria.getNome());
+        if ((categoriaEncontrada != null) && (categoriaEncontrada.getCodigo() != categoria.getCodigo()))
+        throw new RegraNegocioException(String.format("Categoria %s ja cadastrada.", categoria.getNome()));
     }
 
 }

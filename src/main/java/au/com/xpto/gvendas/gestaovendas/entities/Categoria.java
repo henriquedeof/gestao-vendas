@@ -1,6 +1,9 @@
 package au.com.xpto.gvendas.gestaovendas.entities;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "categoria")
@@ -10,6 +13,8 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
+    @NotBlank(message = "Nome eh obrigatorio 111")
+    @Length(min = 3, max = 50, message = "Nome deve ter entre 3 e 50 caracteres 111")
     private String nome;
 
     public Long getCodigo() {
