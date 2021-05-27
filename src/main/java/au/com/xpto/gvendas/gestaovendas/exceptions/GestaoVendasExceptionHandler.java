@@ -1,5 +1,6 @@
 package au.com.xpto.gvendas.gestaovendas.exceptions;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,14 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler(RegraNegocioException.class)
     public ResponseEntity<Object> handleRegraNegocioException(RegraNegocioException ex, WebRequest request){
         String msgUser = ex.getMessage();
+        String msgDeveloper = ex.getMessage();
+        List<ErrorArgumentNotValid> listaErros = Arrays.asList(new ErrorArgumentNotValid(msgUser, msgDeveloper));
+        return handleExceptionInternal(ex, listaErros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request){
+        String msgUser = "Recurso nao encontrado";
         String msgDeveloper = ex.getMessage();
         List<ErrorArgumentNotValid> listaErros = Arrays.asList(new ErrorArgumentNotValid(msgUser, msgDeveloper));
         return handleExceptionInternal(ex, listaErros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
