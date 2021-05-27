@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-public class Product {
+public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -83,7 +83,7 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Product product = (Product) o;
+        Produto product = (Produto) o;
 
         if (codigo != product.codigo) return false;
         if (descricao != null ? !descricao.equals(product.descricao) : product.descricao != null) return false;
