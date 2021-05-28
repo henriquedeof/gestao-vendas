@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class ProdutoController {
 
     @ApiOperation(value = "Salvar produto", nickname = "salvarProduto")
     @PostMapping
-    public ResponseEntity<Produto> salvar(@RequestBody Produto produto){
+    public ResponseEntity<Produto> salvar(@Valid @RequestBody Produto produto){
         Produto produtoSalvo = this.produtoService.salvar(produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoSalvo);
     }

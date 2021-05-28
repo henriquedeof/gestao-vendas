@@ -15,4 +15,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     Optional<Produto> buscarPorCodigo(Long codigo, Long codigoCategoria);
     //For the query above, I believe I could have the same results if I use the following criteria 'findByCodigoAndCategoriaCodigo'
 
+    Optional<Produto> findByCategoriaCodigoAndDescricao(Long codigoCategoria, String descricao);
+
 }

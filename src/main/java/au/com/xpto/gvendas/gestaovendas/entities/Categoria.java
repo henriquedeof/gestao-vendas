@@ -13,8 +13,8 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
-    @NotBlank(message = "Nome eh obrigatorio 111")
-    @Length(min = 3, max = 50, message = "Nome deve ter entre 3 e 50 caracteres 111")
+    @NotBlank(message = "Nome eh obrigatorio")
+    @Length(min = 3, max = 50, message = "Nome deve ter entre 3 e 50 caracteres")
     private String nome;
 
     public Long getCodigo() {
