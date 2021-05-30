@@ -39,9 +39,22 @@ public class ProdutoController {
 
     @ApiOperation(value = "Salvar produto", nickname = "salvarProduto")
     @PostMapping
-    public ResponseEntity<Produto> salvar(@Valid @RequestBody Produto produto){
-        Produto produtoSalvo = this.produtoService.salvar(produto);
+    public ResponseEntity<Produto> salvar(@PathVariable Long codigoCategoria, @Valid @RequestBody Produto produto){
+        Produto produtoSalvo = this.produtoService.salvar(codigoCategoria, produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoSalvo);
+    }
+
+    @ApiOperation(value = "Atualizar produto", nickname = "atualizarProduto")
+    @PutMapping("/{codigoProduto}")
+    public ResponseEntity<Produto> atualizar(@PathVariable Long codigoCategoria, @PathVariable Long codigoProduto, @Valid @RequestBody Produto produto){
+        return ResponseEntity.ok(this.produtoService.atualizar(codigoCategoria, codigoProduto, produto));
+    }
+
+    @ApiOperation(value = "Deletar produto", nickname = "deletarProduto")
+    @DeleteMapping("/{codigoProduto}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletar(@PathVariable Long codigoCategoria, @PathVariable Long codigoProduto){
+        this.produtoService.deletar(codigoCategoria, codigoProduto);
     }
 
 
