@@ -1,10 +1,6 @@
 package au.com.xpto.gvendas.gestaovendas.entities;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
@@ -14,27 +10,41 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
-    @NotBlank(message = "Descricao eh obrigatorio")
-    @Length(min = 3, max = 100, message = "Descricao deve ter entre 3 e 50 caracteres")
     private String descricao;
 
-    @NotNull(message = "Quantidade eh obrigatoria")
     private Integer quantidade;
 
     @Column(name = "preco_curto")
-    @NotNull(message = "Preco custo eh obrigatorio")
-    private BigDecimal precoCusto; // I believe the instructor mapped this field by mistake as preco_curto. It should be preco_custo
+    private BigDecimal precoCusto;// I believe the instructor mapped this field by mistake as preco_curto. It should be preco_custo
 
-    @NotNull(message = "Preco venda eh obrigatorio")
     private BigDecimal precoVenda;
 
-    @Length(max = 500, message = "Observacao deve ter no maximo 500 caracteres")
     private String observacao;
 
     @ManyToOne
     @JoinColumn(name = "codigo_categoria", referencedColumnName = "codigo")
-    @NotNull(message = "Categoria obrigatoria")
     private Categoria categoria;
+
+    public Produto() {    }
+
+    public Produto(Long codigo, String descricao, Integer quantidade, BigDecimal precoCusto, BigDecimal precoVenda, String observacao, Categoria categoria) {
+        this.codigo = codigo;
+        this.descricao = descricao;
+        this.quantidade = quantidade;
+        this.precoCusto = precoCusto;
+        this.precoVenda = precoVenda;
+        this.observacao = observacao;
+        this.categoria = categoria;
+    }
+
+    public Produto(String descricao, Integer quantidade, BigDecimal precoCusto, BigDecimal precoVenda, String observacao, Categoria categoria) {
+        this.descricao = descricao;
+        this.quantidade = quantidade;
+        this.precoCusto = precoCusto;
+        this.precoVenda = precoVenda;
+        this.observacao = observacao;
+        this.categoria = categoria;
+    }
 
     public Long getCodigo() {
         return codigo;
