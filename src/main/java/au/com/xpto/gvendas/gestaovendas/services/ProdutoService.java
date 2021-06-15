@@ -47,10 +47,22 @@ public class ProdutoService {
         this.produtoRepository.delete(this.validarProdutoExiste(codigoProduto, codigoCategoria));
     }
 
+    protected void atualizarQuantidadeEmEstoque(Produto produto){
+        produtoRepository.save(produto);
+    }
+
     private Produto validarProdutoExiste(Long codigoProduto, Long codigoCategoria) {
         Optional<Produto> produto = this.buscarPorCodigo(codigoProduto, codigoCategoria);
         if(!produto.isPresent()){
             throw new EmptyResultDataAccessException(1);
+        }
+        return produto.get();
+    }
+
+    protected Produto validarProdutoExiste(Long codigoProduto) {
+        Optional<Produto> produto = this.produtoRepository.findById(codigoProduto);
+        if(!produto.isPresent()){
+            throw new RegraNegocioException(String.format("Produto de codigo %s nao encontrado", codigoProduto));
         }
         return produto.get();
     }
@@ -70,7 +82,6 @@ public class ProdutoService {
         if(produtoPorDescricao.isPresent() && produtoPorDescricao.get().getCodigo() != produto.getCodigo()){
             throw new RegraNegocioException(String.format("O produto %s ja esta cadastrado", produto.getDescricao()));
         }
-
     }
 
 
