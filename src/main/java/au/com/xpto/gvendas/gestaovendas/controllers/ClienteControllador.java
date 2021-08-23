@@ -59,7 +59,7 @@ public class ClienteControllador {
     @ApiOperation(value = "Deletar cliente", nickname = "deletarCliente")
     @DeleteMapping("/{codigo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizar(@PathVariable Long codigo){
+    public void deletar(@PathVariable Long codigo){
         this.clienteService.deletar(codigo);
     }
 
